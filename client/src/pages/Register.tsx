@@ -5,7 +5,9 @@ import * as yup from 'yup';
 type RegisterInputs = {
     firstName: string;
     lastName: string;
-    email: string; 
+    email: string;
+    phoneNumber: string;
+    address: string; 
     password: string;
     confirmPassword: string;
 };
@@ -14,6 +16,8 @@ const schema = yup.object({
     firstName: yup.string().max(50, 'Max 50 characters').required('First name is required'),
     lastName: yup.string().max(50, 'Max 50 characters').required('Last name is required'),
     email: yup.string().email('Invalid email').max(100, 'Max 100 characters').required('Email is required'),
+    phoneNumber: yup.string().max(50, 'Max 50 characters').required('Phone Number is required'),
+    address: yup.string().max(50, 'Max 50 characters').required('Address is required'),
     password: yup.string().min(6, 'Min 6 characters').max(255, 'Max 255 characters').required('Password is required'),
     confirmPassword: yup
         .string()
@@ -71,6 +75,28 @@ const Register = () => {
 
                     {errors.email && (
                         <span className=" text-red-700 text-sm">{errors.email.message}</span>
+                    )}
+
+                    <input
+                        type="text"
+                        {...register('phoneNumber')}
+                        placeholder="Phone Number"
+                        className='input border border-gray-300 rounded w-full p-2 focus:ring-2 focus:ring-blue-500 text-lg '
+                    />
+
+                    {errors.phoneNumber && (
+                        <span className=" text-red-700 text-sm">{errors.phoneNumber.message}</span>
+                    )}
+
+                    <input
+                        type="text"
+                        {...register('address')}
+                        placeholder="Address"
+                        className='input border border-gray-300 rounded w-full p-2 focus:ring-2 focus:ring-blue-500 text-lg '
+                    />
+
+                    {errors.address && (
+                        <span className=" text-red-700 text-sm">{errors.address.message}</span>
                     )}
 
                     <input

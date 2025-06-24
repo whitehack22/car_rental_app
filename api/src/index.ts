@@ -8,6 +8,8 @@ import insurance from "./insurance/insurance.route";
 import maintenance from "./maintenance/maintenance.route";
 import payment from "./payment/payment.route";
 import reservation from "./reservation/reservation.route";
+import { logger } from './middleware/logger';
+import { rateLimiterMiddleware } from './middleware/rateLimiter';
 import cors from "cors";
 
 const initilizeApp = () => {
@@ -19,6 +21,8 @@ const initilizeApp = () => {
     origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
   }))
+  app.use(logger)
+  app.use(rateLimiterMiddleware)
 
   //route
   customer(app);
