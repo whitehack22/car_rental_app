@@ -1,6 +1,11 @@
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useLocation, useNavigate } from 'react-router';
+import { loginAPI } from '../../Features/login/loginAPI';
+import { toast } from 'sonner';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../../Features/login/userSlice';
 
 type LoginInputs = {
     email: string;
@@ -12,19 +17,49 @@ const schema = yup.object({
     password: yup.string().min(6, 'Min 6 characters').max(255, 'Max 255 characters').required('Password is required'),
 });
 
-const Login = () => {
+function Login () {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const dispatch = useDispatch();
+
+    const emailFormState = location.state?.email || ''
+
+   const [loginCustomer, { isLoading }] = loginAPI.useLoginCustomerMutation()
+
      const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<LoginInputs>({
         resolver: yupResolver(schema),
+        defaultValues: {
+            email: emailFormState,
+        }
     });
 
-    const onSubmit: SubmitHandler<LoginInputs> = (data) => {
+    const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
         console.log('Login data:', data);
-        //TO API
-    };
+        try {
+            const response = await loginCustomer(data).unwrap()
+            console.log("Login response:", response);
+            dispatch(loginSuccess(response))
+
+            console.log("Login response:", response);
+            toast.success("Login successful!");
+
+            if (response.customer.role === 'admin') {
+                navigate('/admin/dashboard/');
+            } else if (response.customer.role === 'user') {
+                navigate('/user/dashboard/');
+            }
+
+        } catch (error) {
+            console.log("Login error:", error);
+            toast.error("Login failed. Please check your credentials and try again.");
+        }
+     }
+
+
   return (
             <div className="flex justify-center items-center min-h-screen bg-gray-300 ">
             <div className="w-full max-w-lg p-8 rounded-xl shadow-lg bg-white">
@@ -37,6 +72,7 @@ const Login = () => {
                         {...register('email')}
                         placeholder="Email"
                         className='input border border-gray-300 rounded w-full p-2 focus:ring-2 focus:ring-blue-500 text-lg '
+                        readOnly={!!emailFormState} // Prevent editing if email is passed from state
                     />
                     {errors.email && (
                         <span className="text-sm  text-red-700">{errors.email.message}</span>
@@ -52,8 +88,12 @@ const Login = () => {
                         <span className="text-sm text-red-700">{errors.password.message}</span>
                     )}
 
-                    <button type="submit" className="btn btn-primary w-full mt-4">
-                        Login
+                    <button type="submit" className="btn btn-primary w-full mt-4" disabled={ isLoading }>
+                        {isLoading ? (
+                            <>
+                                <span className="loading loading-spinner text-primary" /> Logining...
+                            </>
+                        ) : "Login"}
                     </button>
                 </form>
                 <div className="mt-6 flex flex-col items-center space-y-2">
@@ -72,7 +112,7 @@ const Login = () => {
             </div>
         </div>
 
-  )
+  );
 }
 
 export default Login

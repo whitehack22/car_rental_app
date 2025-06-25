@@ -1,11 +1,13 @@
 import './App.css'
 import { createBrowserRouter, RouterProvider } from 'react-router'
 import LandingPage from './pages/LandingPage'
-import Register from './pages/Register'
-import Login from './pages/Login'
+import Register from './pages/auth/Register'
+import Login from './pages/auth/Login'
 import AboutPage from './pages/AboutPage'
 import Dashboard from './pages/dashboard/Dashboard'
 import Error from './components/error/Error'
+import VerifyUser from './pages/auth/VerifyUser'
+import { Toaster } from 'sonner'
 function App() {
  const router = createBrowserRouter([
     {
@@ -19,6 +21,10 @@ function App() {
     {
       path: '/register',
       element: <Register />
+    },
+     {
+      path: '/register/verify',
+      element: <VerifyUser />
     },
     {
       path: '/login',
@@ -38,6 +44,14 @@ function App() {
   return (
     <>
       <RouterProvider router={router} />
+       <Toaster position='top-right' toastOptions={{
+        classNames: {
+          error: 'bg-red-500 text-white',
+          success: 'bg-green-500 text-white',
+          info: 'bg-blue-500 text-white',
+        }
+
+      }} />
     </>
   )
 }

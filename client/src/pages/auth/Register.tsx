@@ -1,6 +1,9 @@
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { customerAPI } from '../../Features/customers/customerAPI';
+import { toast } from 'sonner';
+import { useNavigate } from 'react-router';
 
 type RegisterInputs = {
     firstName: string;
@@ -25,7 +28,11 @@ const schema = yup.object({
         .required('Confirm password is required'),
 });
 
-const Register = () => {
+function Register () {
+    const navigate = useNavigate();
+    const [createCustomer, { isLoading }] = customerAPI.useCreateCustomerMutation(
+        { fixedCacheKey: 'createCustomer' } // Ensures the mutation is not re-fetched unnecessarily
+    )
      const {
         register,
         handleSubmit,
@@ -34,9 +41,25 @@ const Register = () => {
         resolver: yupResolver(schema),
     });
 
-    const onSubmit: SubmitHandler<RegisterInputs> = (data) => {
-        const { ...userData } = data;
-        console.log(userData);
+    const onSubmit: SubmitHandler<RegisterInputs> = async (data) => {
+        const { ...customerData } = data;
+        console.log(customerData);
+
+        // API
+        try {
+            const response = await createCustomer(data).unwrap()
+            console.log("response here...", response);
+            toast.success("Registration successful! Please check your email to verify your account.");
+            // Redirect to verification page or login page
+             setTimeout(() => {
+                navigate('/register/verify', {
+                    state: { email: data.email }
+                });
+            }, 2000);
+        } catch (error) {
+            console.log("Error creating user", error);
+            toast.error("Registration failed. Please try again later.")
+        }
     };
   return (
             <div className="flex justify-center items-center min-h-screen bg-gray-300 ">
@@ -121,8 +144,12 @@ const Register = () => {
                         <span className=" text-red-700 text-sm">{errors.confirmPassword.message}</span>
                     )}
 
-                    <button type="submit" className="btn btn-primary w-full mt-4">
-                        Register
+                    <button type="submit" className="btn btn-primary w-full mt-4" disabled={isLoading}>
+                        {isLoading ? (
+                            <>
+                                <span className="loading loading-spinner text-primary" /> Registering...
+                            </>
+                        ) : "Register"}
                     </button>
                 </form>
                 <p className="mt-6 text-center text-gray-600">
