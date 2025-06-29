@@ -1,7 +1,13 @@
 import logo from "../../assets/images/logo.png"
 import { NavLink } from 'react-router';
+import { type RootState } from '../../app/store';
+import { useSelector } from 'react-redux';
 
 const Navbar = () => {
+    const userrole = useSelector((state: RootState) => state.customer.customer?.role);
+    const userToken = useSelector((state: RootState) => state.customer.token);
+    const isAdmin = userrole === 'admin';
+    const isUser = userrole === 'user';
   return (
     <div>
         <div className="navbar bg-gray-300 shadow-sm">
@@ -22,14 +28,20 @@ const Navbar = () => {
                             </li> 
                         
                             <li className="font-bold text-lg  text-white">
-                                 <NavLink to="/dashboard">Dashboard</NavLink>
+                                  <NavLink to={isAdmin ? "/admin/dashboard/cars" : isUser ? "/user/dashboard/cars" : "/dashboard/analytics"}>
+                                        Dashboard
+                                    </NavLink>
                             </li>
-                            <li className="font-bold text-lg  text-white">
-                                <NavLink to="/register">Register</NavLink>
-                            </li>
-                            <li className="font-bold text-lg  text-white">
-                                <NavLink to="/login">Login</NavLink>
-                            </li>
+                            {!userToken && (
+                                    <>
+                                        <li className="font-bold text-lg">
+                                            <NavLink to="/register">Register</NavLink>
+                                        </li>
+                                        <li className="font-bold text-lg">
+                                            <NavLink to="/login">Login</NavLink>
+                                        </li>
+                                    </>
+                                )}
                         </ul>
                     </ul>
                 </div>
@@ -45,22 +57,29 @@ const Navbar = () => {
                     <li className="font-bold text-lg">
                         <NavLink to="/about">About</NavLink>
                     </li>
-                    <li className="font-bold text-lg"> 
-                        <NavLink to="/dashboard">Dashboard</NavLink>
-                    </li>
-
+                    {userToken && (
+                            <li className="font-bold text-lg">
+                                <NavLink to={isAdmin ? "/admin/dashboard/cars" : isUser ? "/user/dashboard/cars" : "/dashboard/analytics"}>
+                                    Dashboard
+                                </NavLink>
+                            </li>
+                        )}
                 </ul>
             </div>
             <div className="navbar-end">
                 <div className='flex gap-4 mr-4 '>
-                    <li className="font-bold text-lg list-none">
-                         <NavLink to="/register">Register</NavLink>
-                    </li>
-                    <li className="font-bold text-lg list-none">
-                        <NavLink to="/login">Login</NavLink>
-                    </li>
+                    {!userToken && (
+                                    <>
+                                        <li className="font-bold text-lg list-none">
+                                            <NavLink to="/register">Register</NavLink>
+                                        </li>
+                                        <li className="font-bold text-lg list-none">
+                                            <NavLink to="/login">Login</NavLink>
+                                        </li>
+                                    </>
+                                )}
                 </div>
-                <a className="btn">Profile</a>
+                <a className="btn"><NavLink to="/login">Profile</NavLink></a>
             </div>
         </div >
     </div>

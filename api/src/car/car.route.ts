@@ -1,12 +1,14 @@
 import { Express } from "express";
 import { createCarController, deleteCarController, getAllCarsController, 
     getCarByIdController, getCarsByIdController, updateCarController } from "./car.controller";
+import { adminRoleAuth, bothRoleAuth, userRoleAuth, } from '../middleware/bearAuth';
 
 
 
 const car = (app: Express) => {
     // create car
     app.route("/api/car").post(
+        bothRoleAuth,
         async (req, res, next) => {
             try {
                 await createCarController(req, res)
@@ -18,6 +20,7 @@ const car = (app: Express) => {
 
     //get all cars
     app.route("/api/cars").get(
+        bothRoleAuth,
         async (req, res, next) => {
             try {
                 await getAllCarsController(req, res)
@@ -29,6 +32,7 @@ const car = (app: Express) => {
 
     //get car by ID
     app.route("/api/car/:id").get(
+        bothRoleAuth,
         async (req, res, next) => {
             try {
                 await getCarByIdController(req, res)
@@ -40,6 +44,7 @@ const car = (app: Express) => {
 
     //update cars
     app.route("/api/car/:id").put(
+        adminRoleAuth,
         async (req, res, next) => {
             try {
                 await updateCarController(req, res)
@@ -51,6 +56,7 @@ const car = (app: Express) => {
 
     //delete car
     app.route("/api/car/:id").delete(
+        adminRoleAuth,
         async (req, res, next) => {
             try {
                 await deleteCarController(req, res)
@@ -62,6 +68,7 @@ const car = (app: Express) => {
 
     //get multiple cars by ID
     app.route("/api/cars/:id").get(
+        bothRoleAuth,
         async (req, res, next) => {
             try {
                 await getCarsByIdController(req, res)

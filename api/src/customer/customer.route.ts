@@ -5,6 +5,7 @@ import { createCustomerController, deleteCustomerController, getAllCustomersCont
     verifyCustomerController} from "./customer.controller";
 
 
+
 const customer = (app: Express) => {
     // create customer
     app.route("/api/customer").post(
