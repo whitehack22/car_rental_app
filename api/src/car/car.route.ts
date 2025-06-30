@@ -1,7 +1,8 @@
 import { Express } from "express";
 import { createCarController, deleteCarController, getAllCarsController, 
     getCarByIdController, getCarsByIdController, updateCarController } from "./car.controller";
-import { adminRoleAuth, bothRoleAuth, userRoleAuth, } from '../middleware/bearAuth';
+import { adminRoleAuth, bothRoleAuth } from '../middleware/bearAuth';
+
 
 
 

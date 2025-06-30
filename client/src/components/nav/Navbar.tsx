@@ -79,7 +79,7 @@ const Navbar = () => {
                                     </>
                                 )}
                 </div>
-                <a className="btn"><NavLink to="/login">Profile</NavLink></a>
+                <li className="btn mr-6"><NavLink to="/login">Profile</NavLink></li>
             </div>
         </div >
     </div>

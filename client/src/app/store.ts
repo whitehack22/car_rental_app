@@ -4,18 +4,22 @@ import { customerAPI } from '../Features/customers/customerAPI'
 import storage from 'redux-persist/lib/storage'
 import { loginAPI } from '../Features/login/loginAPI'
 import userSlice from '../Features/login/userSlice'
+import { carsAPI } from '../Features/car/carsAPI'
+import { bookingsAPI } from '../Features/booking/bookingsAPI'
 
 
 const persistConfig = {
     key: 'root', //storage key for the persisted state
     version: 1, //version of the persisted state
     storage, // storage engine to use (localStorage in this case)
-    whitelist: ['customer'] // Only persist the user slice - this means only the user state will be saved in local storage
+    whitelist: ['customer'] // Only persist the customer slice - this means only the user state will be saved in local storage
 }
 
 const rootReducer = combineReducers({ //combining all reducers into one root reducer
     [customerAPI.reducerPath]: customerAPI.reducer,
     [loginAPI.reducerPath]: loginAPI.reducer,
+    [carsAPI.reducerPath]: carsAPI.reducer,
+    [bookingsAPI.reducerPath]: bookingsAPI.reducer,
     customer: userSlice
 })
 
@@ -31,6 +35,8 @@ export const store = configureStore({
    })
         .concat(customerAPI.middleware) // add the customersAPI middleware to the store - helps with caching, invalidation, polling, and other features
         .concat(loginAPI.middleware) // add the loginAPI middleware
+        .concat(carsAPI.middleware) 
+        .concat(bookingsAPI.middleware) 
 })
 
 export const persistedStore = persistStore(store) // needed for persisting the store to local storage

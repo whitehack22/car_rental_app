@@ -4,9 +4,9 @@
 export type CustomerState = {
     token: string | null;
     customer: {
-        customer_id: number;
-        first_name: string;
-        last_name: string;
+         customer_id: number;
+    first_name: string;
+    last_name: string;
         email: string;
         phoneNumber: string;
         address: string;
@@ -19,7 +19,7 @@ const initialState: CustomerState = {
     customer: null,
 } //By default, there is no token and no user (not logged in).
 
-const customerSlice = createSlice({ // createSlice is a function that creates a slice of the Redux store- a slice in simple terms is a part of the store that contains a specific piece of state and the reducers that update that state.
+const userSlice = createSlice({ // createSlice is a function that creates a slice of the Redux store- a slice in simple terms is a part of the store that contains a specific piece of state and the reducers that update that state.
     name: 'customer', // name of the slice, this will be used as a key in the store
     initialState, // initial state of the slice
     reducers: { //a reducer is a function that takes the current state and an action, and returns a new state
@@ -34,5 +34,5 @@ const customerSlice = createSlice({ // createSlice is a function that creates a 
     }
 })
 
-export const { loginSuccess, logout } = customerSlice.actions; // export the actions so that they can be dispatched from components
-export default customerSlice.reducer;
+export const { loginSuccess, logout } = userSlice.actions; // export the actions so that they can be dispatched from components
+export default userSlice.reducer;

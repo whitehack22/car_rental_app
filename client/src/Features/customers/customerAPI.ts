@@ -3,15 +3,16 @@ import { ApiDomain } from "../../utils/APIDomain";
 import type { RootState } from "../../app/store";
 
 export type TCustomer = {
-    customer_id: number;
-    first_name: string;
-    last_name: string;
+    customerID: number;
+    firstName: string;
+    lastName: string;
     email: string;
     phoneNumber: string;
     address: string;
     password:string;
     role: string;
-    is_verified: string;
+    isVerified: string;
+    image_url?: string;
 
 }
 
@@ -50,19 +51,22 @@ export const customerAPI = createApi({ // sets up API endpoints for user managem
         }),
         getCustomers: builder.query<TCustomer[], void>({
             query: () => '/api/customers',
+            transformResponse: (response: { data: TCustomer[] }) => response.data,
             providesTags: ['Customers']
         }),
         // update customer
-        updateCustomer: builder.mutation<TCustomer, Partial<TCustomer> & { customer_id: number }>({
+        updateCustomer: builder.mutation<TCustomer, Partial<TCustomer> & { customerID: number }>({
             query: (customer) => ({
-                url: `/api/customer/${customer.customer_id}`,
+                url: `/api/customer/${customer.customerID}`,
                 method: 'PUT',
                 body: customer,
             }),
             invalidatesTags: ['Customers']
         }),
         getCustomerById: builder.query<TCustomer, number>({
-            query: (customer_id) => `/api/customer/${customer_id}`,
+            query: (customerID) => `/api/customer/${customerID}`,
+            transformResponse: (response: { data: TCustomer }) => response.data,
+            providesTags: ['Customers']
         }),
     })
 

@@ -4,9 +4,9 @@ import { ApiDomain } from "../../utils/APIDomain";
 export type TLoginResponse = {
     token: string;
     customer: {
-        customer_id: number;
-        first_name: string;
-        last_name: string;
+        customerID: number;
+        firstName: string;
+        lastName: string;
         email: string;
         phoneNumber: string;
         address: string;

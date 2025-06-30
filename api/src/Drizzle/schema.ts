@@ -16,6 +16,7 @@ export const CustomerTable = pgTable("customer", {
     phoneNumber: text("PhoneNumber"),
     address: varchar("Address", { length: 255 }),
     role: RoleEnum("role").default("user"),
+    image_url: varchar("image_url", { length: 255 }).default("https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"),
     isVerified: boolean("is_verified").default(false),
     verificationCode: varchar("verification_code", { length: 50 })
 });

@@ -237,7 +237,7 @@ export const loginCustomerController = async (req: Request, res: Response) => {
             first_name: customerExist.firstName,
             last_name: customerExist.lastName,
             role: customerExist.role,
-            exp: Math.floor(Date.now() / 1000) + 60 * 60 * 3
+            exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24
         }
 
         //generate the JWT token

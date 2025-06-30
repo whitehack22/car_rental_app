@@ -11,6 +11,10 @@ import { Toaster } from 'sonner'
 import UserDashboard from './pages/dashboard/UserDashboard/UserDashboard'
 import { type RootState } from './app/store'
 import { useSelector } from 'react-redux'
+import Cars from './pages/dashboard/AdminDashboard/cars/Cars'
+import Bookings from './pages/dashboard/AdminDashboard/bookings/Bookings'
+import Users from './pages/dashboard/AdminDashboard/manageUsers/Users'
+import Profile from './pages/dashboard/AdminDashboard/Profile'
 
 function App() {
   const isAdmin = useSelector((state: RootState) => state.customer.customer?.role === 'admin');
@@ -48,19 +52,19 @@ function App() {
         },
         {
           path: 'bookings',
-          element: <h1>Bookings</h1>
+          element: <Bookings/>
         },
         {
           path: 'cars',
-          element: <h1>Cars</h1>
+          element: <Cars />
         },
         {  
           path: 'users',
-          element: <h1>Users</h1>
+          element: <Users />
         },
         {
           path: 'profile',
-          element: <h1>Profile</h1>
+          element: <Profile />
         },
         
       ]

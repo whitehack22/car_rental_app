@@ -1,0 +1,2 @@
+ALTER TABLE "customer" ALTER COLUMN "verification_code" SET DATA TYPE varchar(50);--> statement-breakpoint
+ALTER TABLE "customer" ADD COLUMN "image_url" varchar(255) DEFAULT 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y';
