@@ -1,6 +1,7 @@
 import { Express } from "express";
 import { createBookingController, deleteBookingController, getAllBookingsController, 
-    getBookingByIdController, getBookingsByIdController, updateBookingController } from "./booking.controller";
+    getBookingByIdController, getBookingsByCustomerIdController, getBookingsByIdController, updateBookingController } from "./booking.controller";
+import { adminRoleAuth, bothRoleAuth, userRoleAuth } from '../middleware/bearAuth';
 
 
 
@@ -8,6 +9,7 @@ import { createBookingController, deleteBookingController, getAllBookingsControl
 const booking = (app: Express) => {
     // create booking
     app.route("/api/booking").post(
+        userRoleAuth,
         async (req, res, next) => {
             try {
                 await createBookingController(req, res)
@@ -19,6 +21,7 @@ const booking = (app: Express) => {
 
     //get all bookings
     app.route("/api/bookings").get(
+        adminRoleAuth,
         async (req, res, next) => {
             try {
                 await getAllBookingsController(req, res)
@@ -30,6 +33,7 @@ const booking = (app: Express) => {
 
     //get booking by ID
     app.route("/api/booking/:id").get(
+        bothRoleAuth,
         async (req, res, next) => {
             try {
                 await getBookingByIdController(req, res)
@@ -41,6 +45,7 @@ const booking = (app: Express) => {
 
     //update cars
     app.route("/api/booking/:id").put(
+        bothRoleAuth,
         async (req, res, next) => {
             try {
                 await updateBookingController(req, res)
@@ -52,6 +57,7 @@ const booking = (app: Express) => {
 
     //delete car
     app.route("/api/booking/:id").delete(
+        bothRoleAuth,
         async (req, res, next) => {
             try {
                 await deleteBookingController(req, res)
@@ -63,6 +69,7 @@ const booking = (app: Express) => {
 
     //get multiple cars by ID
     app.route("/api/bookings/:id").get(
+        bothRoleAuth,
         async (req, res, next) => {
             try {
                 await getBookingsByIdController(req, res)
@@ -71,6 +78,19 @@ const booking = (app: Express) => {
             }
         }
     )
+
+    // Get bookings by customer ID
+        app.route("/api/bookings/customer/:customerID").get(
+        userRoleAuth,
+        async (req, res, next) => {
+            try {
+            await getBookingsByCustomerIdController(req, res);
+            } catch (error) {
+            next(error);
+            }
+        }
+        );
+
 }
 
 

@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { customerAPI } from "../../../Features/customers/customerAPI";
 import { useNavigate } from "react-router";
 import { logout } from "../../../Features/login/userSlice";
-import UpdateProfile from "./manageUsers/UpdateProfile";
+import UpdateProfile from "./UpdateProfile";
 
 
 
 
-const Profile = () => {
+const UserProfile = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const customer = useSelector((state: RootState) => state.customer);
@@ -77,4 +77,4 @@ const Profile = () => {
     );
 }
 
-export default Profile
+export default UserProfile

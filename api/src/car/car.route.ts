@@ -9,7 +9,7 @@ import { adminRoleAuth, bothRoleAuth } from '../middleware/bearAuth';
 const car = (app: Express) => {
     // create car
     app.route("/api/car").post(
-        bothRoleAuth,
+        adminRoleAuth,
         async (req, res, next) => {
             try {
                 await createCarController(req, res)

@@ -2,18 +2,22 @@ import { bookingsAPI, type TBooking } from "../../../../Features/booking/booking
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import { useState } from "react";
+import CreateBookings from "./CreateBookings";
 import UpdateBooking from "./UpdateBooking";
 import DeleteBooking from "./DeleteBooking";
+import { useSelector } from 'react-redux';
+import type { RootState } from "../../../../app/store";
 
 
-const Bookings = () => {
-    const { data: bookingsData, isLoading: bookingsLoading, error: bookingError } = bookingsAPI.useGetBookingsQuery(
-        undefined, // No parameters needed for fetching car
-        {
-            refetchOnMountOrArgChange: true, // Refetch when the component mounts or when the query arguments change 
-            pollingInterval: 60000, // Poll every 60 seconds to keep data fresh - the todos will be refetched every 60 seconds to keep the data fresh
-        }
-    )
+
+const UserBookings = () => {
+    const customer = useSelector((state: RootState) => state.customer);
+    const customerID = customer.customer?.customer_id;
+    const { data: bookingsData, isLoading: bookingsLoading, error: bookingError } = bookingsAPI.useGetBookingsByCustomerIdQuery(customerID ?? 0, {
+            skip: !customerID, 
+            refetchOnMountOrArgChange: true,
+            pollingInterval: 60000,
+        });
 
     // state for booking to update
     const [selectedBooking, setSelectedBooking] = useState<TBooking | null>(null);
@@ -26,10 +30,22 @@ const Bookings = () => {
         (document.getElementById('update_modal') as HTMLDialogElement)?.showModal();
 
     }
-    console.log("Bookings Data:", bookingsData);
+    // console.log("Customer ID:", customerID); 
+
     return (
         <div>
+            {/* Create Booking Button */}
+            <div className="flex justify-center mb-3 mt-3">
+                <button
+                    className="btn bg-gray-600 text-white hover:bg-gray-700 border border-gray-400 rounded-lg px-4 py-2 text-lg"
+                    onClick={() => (document.getElementById('my_modal_5') as HTMLDialogElement)?.showModal()}
+                >
+                    Create Booking
+                </button>
+            </div>
+
             {/* Modal and form */}
+            <CreateBookings />
             <UpdateBooking booking={selectedBooking} />
             <DeleteBooking booking={bookingToDelete} />
 
@@ -88,4 +104,4 @@ const Bookings = () => {
     )
 }
 
-export default Bookings
+export default UserBookings

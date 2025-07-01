@@ -74,9 +74,9 @@ const Cars = () => {
                                     <td className="px-4 py-2 border-r border-gray-400 lg:text-base">
                                         <span className={`badge ${car.availability ? "badge-success" : "badge-warning"}`}>
                                             {car.availability ? (
-                                                <span className="text-green-700 lg:text-base">True</span>
+                                                <span className="text-green-700 lg:text-base">Available</span>
                                             ) : (
-                                                <span className="text-yellow-700 lg:text-base">False</span>
+                                                <span className="text-yellow-700 lg:text-base">Unavailable</span>
                                             )}
                                         </span>
                                     </td>

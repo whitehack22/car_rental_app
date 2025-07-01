@@ -15,6 +15,9 @@ import Cars from './pages/dashboard/AdminDashboard/cars/Cars'
 import Bookings from './pages/dashboard/AdminDashboard/bookings/Bookings'
 import Users from './pages/dashboard/AdminDashboard/manageUsers/Users'
 import Profile from './pages/dashboard/AdminDashboard/Profile'
+import UserCars from './pages/dashboard/UserDashboard/cars/UserCars'
+import UserBookings from './pages/dashboard/UserDashboard/bookings/UserBookings'
+import UserProfile from './pages/dashboard/UserDashboard/UserProfile'
 
 function App() {
   const isAdmin = useSelector((state: RootState) => state.customer.customer?.role === 'admin');
@@ -80,15 +83,15 @@ function App() {
         },
         {
           path: 'bookings',
-          element: <h1>Bookings</h1>
+          element: <UserBookings />
         },
         {
           path: 'cars',
-          element: <h1>Cars</h1>
+          element: <UserCars />
         },
         {
           path: 'profile',
-          element: <h1>Profile</h1>
+          element: <UserProfile />
         },
         
       ]

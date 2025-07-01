@@ -59,6 +59,11 @@ export const bookingsAPI = createApi({
         getBookingById: builder.query<{ data: TBooking[] }, number>({
             query: (bookingID) => `/api/booking/${bookingID}`,
             providesTags: ['Bookings'] // this tells RTK Query that this endpoint provides the Bookings tag, so it can be used to invalidate the cache when a new booking is created
-        })
+        }),
+        // get booking by Customer ID
+        getBookingsByCustomerId: builder.query<{ data: TBooking[] }, number>({
+        query: (customerId) => `/api/bookings/customer/${customerId}`,
+        providesTags: ['Bookings'],
+    }),
     })
 })

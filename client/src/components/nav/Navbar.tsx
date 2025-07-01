@@ -28,7 +28,7 @@ const Navbar = () => {
                             </li> 
                         
                             <li className="font-bold text-lg  text-white">
-                                  <NavLink to={isAdmin ? "/admin/dashboard/cars" : isUser ? "/user/dashboard/cars" : "/dashboard/analytics"}>
+                                  <NavLink to={isAdmin ? "/admin/dashboard/cars" : isUser ? "/user/dashboard/cars" : "/login"}>
                                         Dashboard
                                     </NavLink>
                             </li>
@@ -79,7 +79,7 @@ const Navbar = () => {
                                     </>
                                 )}
                 </div>
-                <li className="btn mr-6"><NavLink to="/login">Profile</NavLink></li>
+                <li className="btn mr-6"><NavLink to={isAdmin ? "/admin/dashboard/profile" : isUser ? "/user/dashboard/profile" : "/login"}>Profile</NavLink></li>
             </div>
         </div >
     </div>
