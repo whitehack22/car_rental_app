@@ -9,6 +9,8 @@
     "start": "node dist/server.js",
     "generate": "drizzle-kit generate",
     "migrate": "tsx src/Drizzle/migrate.ts",
+    "push": "drizzle-kit push",
+    "studio": "drizzle-kit studio",
     "seed": "tsx src/Drizzle/seed.ts",
     "test": "jest"
   },
@@ -34,6 +36,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.1",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
