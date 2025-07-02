@@ -18,7 +18,7 @@ const initilizeApp = () => {
   //middleware
   app.use(express.json());
   app.use(cors({
-    origin: "https://car-rental-app-one.vercel.app/",
+    origin: "https://car-rental-app-one.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
   }))
   app.use(logger)
